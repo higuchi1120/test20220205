@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>顧客テーブル</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<script th:src="@{/js/test.js}"></script>
+</head>
+<body>
+<div class="wrapper">
+	<div class = "rowControl">
+		<form action="" name="controlForm" th:object="${controlForm}">
+			<p>
+				顧客名:<input type="text" th:field="*{custname}">
+				住所:<input type="text" th:field="*{address}">
+				電話番号:<input type="text" th:field="*{telenum}">
+				その他:<input type="text"  th:field="*{notes}">
+				<input type="submit" value="検索" th:formmethod="get" th:formaction="@{/select}">
+				<input type="submit" value="登録" th:formmethod="post" th:formaction="@{/insert}" th:onclick="return chkInsert()">
+				<input type="button" value="クリア" th:onclick="clrInput()">
+			</p>
+			<p></p>
+		</form>
+	</div>
+	<div class = "rowView">
+		<form action="" name="viewForm" th:object="${viewForm}">
+			<table>
+				<thead>
+					<tr class="table_header">
+						<td><input type="checkbox" th:onclick="chkAll(this.checked)"></td>
+						<td class="td_custname"><h3>顧客名</h3></td>
+						<td class="td_address"><h3>住所</h3></td>
+						<td class="td_telenum"><h3>電話番号</h3></td>
+						<td class="td_notes"><h3>その他</h3></td>
+						<td>
+							<p><input type="submit" value="削除" th:formmethod="post" th:formaction="@{/delete}" th:onclick="return chkDelete()"></p>
+							<p><input type="submit" value="変更" th:formmethod="post" th:formaction="@{/update}" th:onclick="return chkUpdate()"></p>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="custData, st:*{custDataViewList}">
+						<td><input type="hidden" th:field="*{custDataViewList[__${st.index}__].custDataBean.id}">
+						<input type="checkbox" th:field="*{custDataViewList[__${st.index}__].checked}" class="checks" th:onclick="|chkChkBox('__${st.index}__',this.checked)|"></td>
+						<td class="td_custname"><input type="text"  th:field="*{custDataViewList[__${st.index}__].custDataBean.custname}" class="custnames" th:disabled="${true}"></td>
+						<td class="td_address"><input type="text" th:field="*{custDataViewList[__${st.index}__].custDataBean.address}" th:disabled="${true}"></td>
+						<td class="td_telenum"><input type="text" th:field="*{custDataViewList[__${st.index}__].custDataBean.telenum}" th:disabled="${true}"></td>
+						<td class="td_notes"><input type="text" th:field="*{custDataViewList[__${st.index}__].custDataBean.notes}" th:disabled="${true}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+</body>
+</html>
